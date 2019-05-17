@@ -51,25 +51,25 @@ class MainActivity : AppCompatActivity() {
                     val tcm = getSystemService(TextClassificationManager::class.java)
                     val r = TextLanguage.Request.Builder(p0!!).build()
                     val textLanguage = async { tcm.textClassifier.detectLanguage(r) }.await()
-                    Log.d("sasa", "text=$p0 result=$textLanguage")
+                    //Log.d("log", "text=$p0 result=$textLanguage")
                     val s = textLanguage.getConfidenceScore(ULocale.JAPANESE)
-                    Log.d("sasa", "$s")
+                    Log.d("log", "$s")
                     val c = textLanguage.localeHypothesisCount
-                    Log.d("sasa", "$c")
+                    //Log.d("log", "$c")
                     findViewById<TextView>(R.id.result).text = textLanguage.toString()
 
                     val tlr = TextLinks.Request.Builder(p0).build()
                     val tl: TextLinks = async { tcm.textClassifier.generateLinks(tlr) }.await()
-                    Log.d("sasa", tl.toString())
+                    Log.d("log", tl.toString())
 
                     val tcr = TextClassification.Request.Builder(p0, (0), p0.length).build()
                     val tc: TextClassification = async { tcm.textClassifier.classifyText(tcr) }.await()
-                    Log.d("sasa", tc.toString())
+                    Log.d("log", tc.toString())
 
                     tc.actions
 //                        .map { "${it.contentDescription}:${it.isEnabled}\n" }
                         .map { "${it.actionIntent}" }
-                        .forEach { Log.d("sasa", it) }
+                        .forEach { Log.d("log", it) }
 
                     // 実機のPixel 3なら動いたけど結果は空
                     // Emulatorで動かすとnative crashする
@@ -91,7 +91,7 @@ class MainActivity : AppCompatActivity() {
 //                    val ca = ConversationActions.Request.Builder(l).build()
 //                    val sca = async { tcm.textClassifier.suggestConversationActions(ca) }.await()
 //
-//                    Log.d("sasa", sca.conversationActions.toString())
+//                    Log.d("log", sca.conversationActions.toString())
                 }
             }
 
